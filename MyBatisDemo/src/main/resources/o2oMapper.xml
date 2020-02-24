@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.o2oMapper">
+
+
+    <select id="O2O1" resultMap="rm01">
+        SELECT
+            grade.id AS gid,
+            grade. NAME AS gname,
+            room.id AS rid,
+            room. NAME AS rname
+        FROM
+            grade
+        inner JOIN room ON grade.rid = room.id;
+    </select>
+
+    <resultMap id="rm01" type="pojo.Grade">
+        <id column="gid" property="id"/>
+        <result column="gname" property="name"/>
+        <association property="room" javaType="pojo.Room">
+            <id column="rid" property="id"/>
+            <result column="rname" property="name"/>
+        </association>
+    </resultMap>
+
+    <select id="O2m1" resultMap="rm02">
+        SELECT
+            dept.id as d_id,
+            dept. NAME as d_name,
+            emp.id e_id,
+            emp. NAME e_name
+        FROM
+            dept
+        INNER JOIN emp ON dept.id = emp.deptid
+    </select>
+
+    <resultMap id="rm02" type="pojo.Dept">
+        <id column="d_id" property="id" />
+        <result column="d_name" property="name"/>
+        <collection property="list" ofType="pojo.Emp">
+            <id column="e_id" property="id"/>
+            <result column="e_name" property="name"/>
+        </collection>
+    </resultMap>
+
+    <select id="O2m2" resultMap="rm03">
+        SELECT
+            dept.id as d_id,
+            dept. NAME as d_name,
+            emp.id e_id,
+            emp. NAME e_name
+        FROM
+            dept
+        INNER JOIN emp ON dept.id = emp.deptid
+    </select>
+
+    <resultMap id="rm03" type="pojo.Emp">
+        <id column="e_id" property="id" />
+        <result column="e_name" property="name"/>
+        <association property="dept" javaType="pojo.Dept">
+            <id column="d_id" property="id"/>
+            <result column="d_name" property="name"/>
+        </association>
+    </resultMap>
+    
+    <select id="O2m3" resultMap="rm04">
+        SELECT
+            stu.id as sid,
+            stu. NAME as sname,
+            teacher.id as tid,
+            teacher. NAME as tname
+        FROM
+            stu
+        INNER JOIN stu_teacher ON stu.id = stu_teacher.sid
+        inner JOIN teacher on teacher.id = stu_teacher.tid
+    </select>
+
+
+    <resultMap id="rm04" type="pojo.Teacher">
+        <id column="tid" property="id"/>
+        <result column="tname" property="name"/>
+        <collection property="studentList" ofType="pojo.Student">
+            <id column="sid" property="id"/>
+            <result column="sname" property="name"/>
+        </collection>
+    </resultMap>
+
+
+</mapper>
+
